@@ -33,7 +33,13 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Item>> save(@RequestBody @Valid ItemRequestDto itemDto) {
-        Item saved = itemService.save(itemDto);
+        Item item = Item.builder()
+                .name(itemDto.name())
+                .description(itemDto.description())
+                .price(itemDto.price())
+                .build();
+        Item saved = itemService.save(item);
+
         int statusCode = HttpStatus.CREATED.value();
         return ResponseEntity.status(statusCode)
                 .body(ApiResponse.success(statusCode, "Item created", saved));
@@ -41,8 +47,14 @@ public class ItemController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Item>> replace(@PathVariable long id, @RequestBody @Valid ItemRequestDto itemDto) {
-        Item updated = itemService.replace(id, itemDto);
-        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK.value(), "Item updated", updated));
+        Item item = Item.builder()
+                .id(id)
+                .name(itemDto.name())
+                .description(itemDto.description())
+                .price(itemDto.price())
+                .build();
+        Item updatedItem = itemService.replace(id, item);
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK.value(), "Item updated", updatedItem));
     }
 
     @DeleteMapping("/{id}")

@@ -2,7 +2,6 @@ package it.lucablanchi.itemsspringapi.service;
 
 import it.lucablanchi.itemsspringapi.model.Item;
 import it.lucablanchi.itemsspringapi.repository.ItemRepository;
-import it.lucablanchi.itemsspringapi.dto.ItemRequestDto;
 import it.lucablanchi.itemsspringapi.exception.NotFoundApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,27 +23,16 @@ public class ItemService {
                 .orElseThrow(() -> new NotFoundApiException("Item with id " + id + " not found"));
     }
 
-    public Item save(ItemRequestDto itemDto) {
-        Item item = Item.builder()
-                .name(itemDto.name())
-                .description(itemDto.description())
-                .price(itemDto.price())
-                .build();
+    public Item save(Item item) {
         return itemRepository.save(item);
     }
 
-    public Item replace(long id, ItemRequestDto itemDto) {
+    public Item replace(long id, Item item) {
         if (!itemRepository.existsById(id)) {
             throw new NotFoundApiException("Item with id " + id + " not found");
         }
 
-        Item toSave = Item.builder()
-                .id(id)
-                .name(itemDto.name())
-                .description(itemDto.description())
-                .price(itemDto.price())
-                .build();
-        return itemRepository.save(toSave);
+        return itemRepository.save(item);
     }
 
     public void deleteById(long id) {
