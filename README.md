@@ -1,6 +1,4 @@
 # spring-boot-clean-rest-api
-A clean template for a Spring Boot REST api.
-
-The project is likely to be updated to add authentication, handling of secrets, database configurability and other features.
+A simple template for a classic three layers Spring Boot REST api. Persistance is handled with JPA, and not much effort has been taken in separating the core from the infrastructure.
 
 Check `openapi.yaml` for the api documentation.
